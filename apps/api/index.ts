@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import db from '../../shared/database/models';
-import type { User } from '../../shared/entities/users/user.model';
+import { UserProvider } from '../../shared/entities/users/user.provider';
 
 const app = new Hono();
 
@@ -11,10 +11,9 @@ const main = async () => {
     );
 
     app.get('/', (c) => c.text('Hello Bun!'))
-    app.get('/users', (c) => {
-        return c.json({
-            id: 1, name: 'Thaqif'
-        } as User)
+    app.get('/users', async (c) => {
+        const user = await UserProvider.getAllUsers();
+        return c.json(user);
     });
 
     Bun.serve({
@@ -22,11 +21,9 @@ const main = async () => {
         fetch: app.fetch,
     });
 
-    console.log('🚀 Server started on http://localhost:3000')
+    console.log('🚀 Server started on http://localhost:3000');
 };
 
 main().catch((err) => {
     console.error('Failed to start server:', err)
-})
-
-
+});

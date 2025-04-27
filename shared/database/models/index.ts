@@ -1,9 +1,15 @@
 import fs from "fs";
 import path from "path";
 import { DataTypes, Sequelize } from "sequelize";
+import type { UserInterface } from "./user";
+
+interface Db {
+    sequelize: Sequelize;
+    User: UserInterface;
+}
 
 const basename = path.basename(__filename);
-const db: any = {};
+const dbSetup: any = {};
 
 const sequelize = new Sequelize({
     dialect: 'postgres',
@@ -20,15 +26,17 @@ fs
         (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.ts' || file.slice(-3) === '.js'))
     .forEach((file: any) => {
         const model = require(path.join(__dirname, file))["default"](sequelize, DataTypes);
-        db[model.name] = model;
+        dbSetup[model.name] = model;
     });
 
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
+Object.keys(dbSetup).forEach(modelName => {
+    if (dbSetup[modelName].associate) {
+        dbSetup[modelName].associate(dbSetup);
     }
 });
 
-db.sequelize = sequelize;
+dbSetup.sequelize = sequelize;
+
+const db = dbSetup as Db;
 
 export default db;

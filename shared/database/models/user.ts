@@ -19,3 +19,5 @@ export default (sequelize: any) => {
         underscored: true
     });
 }
+
+export type UserInterface = typeof User;
