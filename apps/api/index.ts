@@ -12,8 +12,8 @@ const main = async () => {
 
     app.get('/', (c) => c.text('Hello Bun!'))
     app.get('/users', async (c) => {
-        const user = await UserProvider.getAllUsers();
-        return c.json(user);
+        const users = await UserProvider.getAllUsers();
+        return c.json(users);
     });
 
     Bun.serve({
