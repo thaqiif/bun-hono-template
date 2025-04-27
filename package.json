@@ -1,0 +1,24 @@
+{
+    "name": "bun-hono-template",
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@types/bun": "1.2.10",
+        "prettier": "3.5.3"
+    },
+    "peerDependencies": {
+        "typescript": "5.8.3"
+    },
+    "scripts": {
+        "api:dev": "bun --hot apps/api/index.ts",
+        "scheduler:dev": "bun --hot apps/scheduler/index.ts",
+        "api:start": "bun apps/api/index.ts",
+        "scheduler:start": "bun apps/scheduler/index.ts"
+    },
+    "dependencies": {
+        "hono": "4.7.7",
+        "pg": "8.15.6",
+        "pg-hstore": "2.3.4",
+        "sequelize": "6.37.7"
+    }
+}
